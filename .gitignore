@@ -1,0 +1,21 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# dbt (added later, but fine to include now)
+dbt_packages/
+target/
+logs/
+
+# Personal planning docs (not part of showcased project)
+planning/
