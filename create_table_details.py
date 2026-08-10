@@ -6,16 +6,15 @@ load_dotenv()
 engine = create_engine(os.getenv("DATABASE_URL_LOCAL"))
 
 ddl = """
-CREATE TABLE IF NOT EXISTS raw.award_responses (
+CREATE TABLE IF NOT EXISTS raw.pull_watermark (
     id SERIAL PRIMARY KEY,
-    payload JSONB NOT NULL,
-    page_number INT NOT NULL,
-    request_filters JSONB NOT NULL,
-    pulled_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    source VARCHAR NOT NULL DEFAULT 'usaspending_awards',
+    last_successful_end_date DATE NOT NULL,
+    run_completed_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 """
 
 with engine.connect() as conn:
     conn.execute(text(ddl))
     conn.commit()
-    print("raw.award_responses created.")
+    print("raw.pull_watermark created.")
