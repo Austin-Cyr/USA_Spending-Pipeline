@@ -18,4 +18,4 @@ target/
 logs/
 
 # Personal planning docs (not part of showcased project)
-planning/
+_planning/
