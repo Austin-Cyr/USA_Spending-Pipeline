@@ -1,3 +1,4 @@
+# python -m src.ingestion.flow
 from datetime import date, timedelta
 
 from prefect import flow, task, get_run_logger
@@ -8,17 +9,14 @@ from src.ingestion.db import get_engine, create_watermark_table
 from src.ingestion.loader import land_raw_page
 from src.ingestion.watermark import get_last_watermark, record_watermark
 
-
-@task(retries=2, retry_delay_seconds=10)
+@task(retries=2, retry_delay_seconds=10, cache_policy=NO_CACHE)
 def fetch_page_task(start_date: str, end_date: str, page: int) -> dict:
     payload = build_payload(start_date, end_date, page=page, limit=100)
     return {"data": fetch_awards_page(payload), "payload": payload}
 
-
-@task
+@task(cache_policy=NO_CACHE)
 def land_page_task(engine, data: dict, page: int, filters: dict) -> None:
     land_raw_page(engine, data, page_number=page, request_filters=filters)
-
 
 @flow(name="usaspending-incremental-pull")
 def usaspending_ingestion_flow():
