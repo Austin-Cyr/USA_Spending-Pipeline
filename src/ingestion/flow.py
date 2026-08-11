@@ -2,7 +2,7 @@
 from datetime import date, timedelta
 
 from prefect import flow, task, get_run_logger
-
+from prefect.cache_policies import NO_CACHE
 from src.ingestion.client import fetch_awards_page
 from src.ingestion.config import build_payload
 from src.ingestion.db import get_engine, create_watermark_table
