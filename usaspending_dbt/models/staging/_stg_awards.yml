@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: stg_awards
+    columns:
+      - name: award_id
+        tests:
+          - not_null
+      - name: recipient_name
+        tests:
+          - not_null
+      - name: award_amount
+        tests:
+          - not_null
