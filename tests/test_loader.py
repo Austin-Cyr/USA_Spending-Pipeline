@@ -1,6 +1,6 @@
 from sqlalchemy import text
-from src.ingestion.db import get_engine
 from src.ingestion.loader import land_raw_page
+from src.ingestion.db import get_engine, create_raw_table
 
 
 def _clear_raw(engine):
@@ -11,6 +11,7 @@ def _clear_raw(engine):
 
 def test_land_raw_page_inserts_row():
     engine = get_engine("local")
+    create_raw_table(engine)
     _clear_raw(engine)
 
     fake_payload = {"results": [{"Award ID": "TEST999"}], "page_metadata": {"hasNext": False}}

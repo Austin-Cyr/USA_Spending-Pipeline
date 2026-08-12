@@ -22,3 +22,17 @@ def create_watermark_table(engine: Engine) -> None:
     with engine.connect() as conn:
         conn.execute(text(ddl))
         conn.commit()
+        
+def create_raw_table(engine: Engine) -> None:
+    ddl = """
+    CREATE TABLE IF NOT EXISTS raw.award_responses (
+        id SERIAL PRIMARY KEY,
+        payload JSONB NOT NULL,
+        page_number INT NOT NULL,
+        request_filters JSONB NOT NULL,
+        pulled_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    """
+    with engine.connect() as conn:
+        conn.execute(text(ddl))
+        conn.commit()
