@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: dim_agency
+    columns:
+      - name: agency_key
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_recipient
+    columns:
+      - name: recipient_key
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_naics
+    columns:
+      - name: naics_key
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_awards
+    columns:
+      - name: award_id
+        tests:
+          - not_null
+      - name: agency_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_agency')
+                field: agency_key
+      - name: recipient_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_recipient')
+                field: recipient_key
