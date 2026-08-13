@@ -75,3 +75,11 @@ Below are ADR-style notes describing the data pipeline engineering tradeoffs rev
 **Decision:** I set `raw.award_responses` to store the entire API response page as a JSONB blob, plus minimal metadata (`page_number`, `request_filters`, `pulled_at`) instead of individual parsed columns.
 
 **Why:** This preserves a full audit trail of exactly what the API returned. If a downstream transformation bug is discovered later, the raw data can be reprocessed without needing to re-hit the API. This is the standard "bronze layer" pattern in a medallion (raw → staging → marts) architecture.
+
+---
+
+## 9. Utilzied Prefect instead of Airflow for orchestration
+
+**Decision:** I chose to use Prefect as the orchestration tool for this project
+
+**Why:** This project is small, personal project that does not require the robust tooling and large footprint that can come with Airflow. Prefect is python-native so it runs easily and lightweight. I'm also working with an older PC that runs tight on memory and storage and thus staying light has performance benefits. 
